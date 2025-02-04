@@ -17,9 +17,9 @@ jobs:
       - name: Create dist directory
         run: mkdir -p dist
 
-      - name: Copy files to dist (excluding dist itself)
+      - name: Copy files to dist (excluding .git and dist itself)
         run: |
-          find . -maxdepth 1 -not -name dist -print0 | xargs -0 -I {} cp -r {} dist/
+          find . -maxdepth 1 -not -name dist -not -name .git -print0 | xargs -0 -I {} cp -r {} dist/
 
       - name: Replace placeholder in index.html and inject JS variable
         run: |
