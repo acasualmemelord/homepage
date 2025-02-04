@@ -19,14 +19,19 @@ jobs:
 
       - name: Copy files to dist (excluding dist itself)
         run: |
-          cp -r index.html dist/  # Copy index.html
-          cp -r script.js dist/   # Copy script.js
-          # Add other files as needed (e.g., cp -r style.css dist/)
+          find . -maxdepth 1 -not -name dist -print0 | xargs -0 -I {} cp -r {} dist/
 
       - name: Replace placeholder in index.html and inject JS variable
         run: |
+          echo "Before replacement:"
+          cat dist/index.html  # Show the contents of index.html before
           sed -i "s/__NAME__/Loading.../g" dist/index.html # Optional default text
+          echo "After replacement:"
+          cat dist/index.html  # Show the contents of index.html after
+          echo "Injecting JavaScript variable..."
           echo "window.nameFromEnv = '${{ secrets.CONCEALED_NAME }}';" >> dist/script.js
+          echo "Contents of script.js:"
+          cat dist/script.js
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
