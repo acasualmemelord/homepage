@@ -22,10 +22,10 @@ jobs:
           cp index.html dist/
           cp script.js dist/
 
-      - name: Inject JavaScript variable in script.js
+      - name: Inject JavaScript variable in script.js  # <--- Corrected
         run: |
           export CONCEALED_NAME="${{ secrets.CONCEALED_NAME }}"
-          sed -i "s/Loading.../$CONCEALED_NAME/g" dist/script.js # Correct replacement
+          sed -i "s/REPLACE_ME_WITH_NAME/$CONCEALED_NAME/g" dist/script.js # <--- Corrected
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
