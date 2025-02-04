@@ -20,11 +20,12 @@ jobs:
 
       - name: Debug concealed name
         run: echo "Concealed Name: ${{ secrets.CONCEALED_NAME }}"  # Access the secret
+        shell: bash
 
       - name: Replace placeholder with concealed name
         run: |
           echo "Replacing __NAME__ with ${{ secrets.CONCEALED_NAME }}"
-          sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html  # Double quotes to ensure variable expansion works
+          sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html  # Corrected line with double quotes for variable expansion
         working-directory: .  # Adjust path if needed
 
       - name: Deploy to GitHub Pages
