@@ -9,9 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    env:
-      CONCEALED_NAME: ${{ secrets.CONCEALED_NAME }}  # Ensure it's defined in GitHub Secrets
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,8 +18,13 @@ jobs:
       - name: Debug file structure
         run: ls -R  # List files to confirm index.html exists
 
+      - name: Debug concealed name
+        run: echo "Concealed Name: ${{ github.event.inputs.CONCEALED_NAME }}"  # Reference the variable directly from GitHub
+
       - name: Replace placeholder with concealed name
-        run: sed -i 's/__NAME__/'"${{ env.CONCEALED_NAME }}"'/g' index.html
+        run: |
+          echo "Replacing __NAME__ with ${{ github.event.inputs.CONCEALED_NAME }}"
+          sed -i "s/__NAME__/${{ github.event.inputs.CONCEALED_NAME }}/g" index.html
         working-directory: .  # Adjust path if needed
 
       - name: Deploy to GitHub Pages
