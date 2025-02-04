@@ -20,9 +20,20 @@ jobs:
 
       - name: Replace placeholder with concealed name
         run: |
-            echo "Replacing __NAME__ with '${{ vars.CONCEALED_NAME }}'"
-            sed -i 's/__NAME__/${{ vars.CONCEALED_NAME }}/g' index.html
+            echo "Before replacement:"
+            cat index.html  # Show the file before the change
+            echo "Replacing __NAME__ with '${{ secrets.CONCEALED_NAME }}'"
+            sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html
+            echo "After replacement:"
+            cat index.html  # Show the file after the change
         shell: bash
+
+      - name: Commit changes
+        run: |
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add index.html
+            git commit -m "Apply concealed name replacement" || echo "No changes to commit"
 
 
       - name: Deploy to GitHub Pages
