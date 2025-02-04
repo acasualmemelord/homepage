@@ -23,17 +23,11 @@ jobs:
           cp script.js dist/
           # Copy other necessary files individually (e.g., cp style.css dist/)
 
-      - name: Replace placeholder in index.html and inject JS variable
+      - name: Replace placeholder and inject JS variable
         run: |
-          echo "Before replacement:"
-          cat dist/index.html  # Show the contents of index.html before
-          sed -i "s/__NAME__/Loading.../g" dist/index.html # Optional default text
-          echo "After replacement:"
-          cat dist/index.html  # Show the contents of index.html after
-          echo "Injecting JavaScript variable..."
-          echo "window.nameFromEnv = '${{ secrets.CONCEALED_NAME }}';" >> dist/script.js
-          echo "Contents of script.js:"
-          cat dist/script.js
+          export CONCEALED_NAME="${{ secrets.CONCEALED_NAME }}" # Set env variable
+          sed -i "s/__NAME__/$CONCEALED_NAME/g" dist/index.html # Replace in index.html
+          echo "window.nameFromEnv = '$CONCEALED_NAME';" >> dist/script.js # Inject JS variable
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
