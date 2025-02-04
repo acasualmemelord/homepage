@@ -17,17 +17,16 @@ jobs:
       - name: Create dist directory
         run: mkdir -p dist
 
-      - name: Copy necessary files to dist
+      - name: Copy files to dist
         run: |
           cp index.html dist/
           cp script.js dist/
-          # Copy other necessary files individually (e.g., cp style.css dist/)
+          # Copy other necessary files (e.g., cp style.css dist/)
 
-      - name: Replace placeholder and inject JS variable
+      - name: Replace placeholder in index.html
         run: |
-          export CONCEALED_NAME="${{ secrets.CONCEALED_NAME }}" # Set env variable
-          sed -i "s/__NAME__/$CONCEALED_NAME/g" dist/index.html # Replace in index.html
-          echo "window.nameFromEnv = '$CONCEALED_NAME';" >> dist/script.js # Inject JS variable
+          export CONCEALED_NAME="${{ secrets.CONCEALED_NAME }}"
+          sed -i "s/__NAME__/$CONCEALED_NAME/g" dist/index.html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
