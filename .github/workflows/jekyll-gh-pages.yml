@@ -19,12 +19,12 @@ jobs:
         run: ls -R  # List files to confirm index.html exists
 
       - name: Debug concealed name
-        run: echo "Concealed Name: ${{ github.event.inputs.CONCEALED_NAME }}"  # Reference the variable directly from GitHub
+        run: echo "Concealed Name: ${{ github.repository_variables.CONCEALED_NAME }}"  # Correct reference to repository variable
 
       - name: Replace placeholder with concealed name
         run: |
-          echo "Replacing __NAME__ with ${{ github.event.inputs.CONCEALED_NAME }}"
-          sed -i "s/__NAME__/${{ github.event.inputs.CONCEALED_NAME }}/g" index.html
+          echo "Replacing __NAME__ with ${{ github.repository_variables.CONCEALED_NAME }}"
+          sed -i "s/__NAME__/${{ github.repository_variables.CONCEALED_NAME }}/g" index.html  # Double quotes to ensure variable expansion works
         working-directory: .  # Adjust path if needed
 
       - name: Deploy to GitHub Pages
