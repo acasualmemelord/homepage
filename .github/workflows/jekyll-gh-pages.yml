@@ -14,13 +14,17 @@ jobs:
         with:
           ref: main
 
-      - name: Replace placeholder with concealed name
-        run: sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html
+      - name: Build the site (if applicable)
+        run: npm run build # or hugo, jekyll, etc.
+
+      - name: Replace placeholder in index.html (using environment variable)
+        run: |
+          sed -i "s/__NAME__/Loading.../g" ./dist/index.html # Replace with default text
+          echo "window.nameFromEnv = '${{ secrets.CONCEALED_NAME }}';" >> ./dist/script.js # Create JS variable
         shell: bash
 
-      - name: Deploy to GitHub Pages (using a temporary branch)
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: . # Deploy the current directory (with the modified index.html)
+          folder: ./dist
           branch: gh-pages
-          clean: true # Important: Clean the gh-pages branch first
