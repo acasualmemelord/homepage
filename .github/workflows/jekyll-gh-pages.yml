@@ -21,7 +21,6 @@ jobs:
         run: |
           cp index.html dist/
           cp script.js dist/
-          # Copy other necessary files (e.g., cp style.css dist/)
 
       - name: Replace placeholder in index.html
         run: |
