@@ -25,7 +25,7 @@ jobs:
       - name: Inject JavaScript variable in script.js
         run: |
           export CONCEALED_NAME="${{ secrets.CONCEALED_NAME }}"
-          sed -i "s/Loading.../$CONCEALED_NAME/g" dist/script.js # Correct replacement in script.js
+          sed -i "s/Loading.../$CONCEALED_NAME/g" dist/script.js # Correct replacement
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
