@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
   const namePlaceholder = document.getElementById('name-placeholder');
-  const getName = window.getName; // Get the function from the other script
 
-  if (getName) {
-    namePlaceholder.textContent = getName();
-  } else {
-    namePlaceholder.textContent = "Name not available.";
-  }
+  // Obfuscated function definition (example - improve obfuscation as needed)
+  const getName = () => {
+      const encodedName = '***ENCODED_NAME***'; // Placeholder for encoded name
+      return atob(encodedName); // Decode the name
+  };
+
+  namePlaceholder.textContent = getName();
 });
