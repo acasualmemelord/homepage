@@ -19,11 +19,11 @@ jobs:
         run: ls -R  # List files to confirm index.html exists
 
       - name: Replace placeholder with concealed name
-        run: |
-          echo "Replacing __NAME__ with ${SECRET_NAME}"
-          sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html  # Ensure variable expansion works
-        shell: bash  # Make sure bash is used for proper variable expansion
-        working-directory: .  # Adjust path if needed
+          run: |
+            echo "Replacing __NAME__ with '${{ secrets.CONCEALED_NAME }}'"
+            sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html
+          shell: bash
+
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
