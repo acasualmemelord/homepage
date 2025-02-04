@@ -1,4 +1,6 @@
 const namePlaceholder = document.getElementById('name-placeholder');
-const concealedName = namePlaceholder.dataset.name;
 
-namePlaceholder.textContent = concealedName; // Set the textContent
+// Fetch the name from the environment variable injected by the workflow
+const concealedName = window.nameFromEnv;
+
+namePlaceholder.textContent = concealedName;
