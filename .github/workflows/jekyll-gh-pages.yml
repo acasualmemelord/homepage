@@ -3,7 +3,7 @@ name: Deploy GitHub Pages with Concealed Name
 on:
   push:
     branches:
-      - main  # Update this if needed
+      - main  # Change to the correct branch
 
 jobs:
   deploy:
@@ -13,18 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: main  # Update to your correct branch
+          ref: main  # Ensure correct branch
 
       - name: Debug file structure
-        run: ls -R  # Lists all files to check if index.html exists
+        run: ls -R  # List files to confirm index.html exists
 
       - name: Replace placeholder with concealed name
         run: sed -i 's/__NAME__/${{ vars.CONCEALED_NAME }}/g' index.html
-        working-directory: ./  # Ensure correct directory
+        working-directory: .  # Adjust path if needed
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
-          folder: .  # Update if index.html is inside a subfolder
+          folder: .  # Adjust if using a subfolder
