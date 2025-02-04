@@ -3,39 +3,32 @@ name: Deploy GitHub Pages with Concealed Name
 on:
   push:
     branches:
-      - main  # Ensure correct branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: main  # Ensure correct branch
-
-      - name: Debug file structure
-        run: ls -R  # List files to confirm index.html exists
+          ref: main
 
       - name: Replace placeholder with concealed name
         run: |
-            echo "Before replacement:"
-            cat index.html  # Show the file before the change
-            echo "Replacing __NAME__ with '${{ secrets.CONCEALED_NAME }}'"
-            sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html
-            echo "After replacement:"
-            cat index.html  # Show the file after the change
+          sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html
         shell: bash
 
-      - name: Commit changes (GitHub Actions bot)
+      - name: Commit changes to gh-pages
         run: |
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add index.html
-            git commit -m "Automated update" || echo "No changes to commit"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan gh-pages  # Create gh-pages if it doesn't exist
+          git add index.html
+          git commit -m "Automated update"
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Push changes to gh-pages
+        uses: ad-m/github-push-action@master
         with:
-          folder: .  # Adjust if using a subfolder
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
