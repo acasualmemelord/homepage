@@ -1,2 +1,4 @@
-// Access the name from the environment variable created in the workflow
-document.getElementById('name-placeholder').textContent = window.nameFromEnv;window.nameFromEnv = 'Robert Tran';
+const namePlaceholder = document.getElementById('name-placeholder');
+const concealedName = namePlaceholder.dataset.name; // Get the name from the data attribute
+
+namePlaceholder.textContent = concealedName === "__NAME__" ? "Loading..." : concealedName; // Handle placeholder case
