@@ -15,25 +15,12 @@ jobs:
           ref: main
 
       - name: Replace placeholder with concealed name
-        run: |
-          sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html
+        run: sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html
         shell: bash
 
-      - name: Checkout gh-pages (or create if it doesn't exist)
-        run: |
-          git fetch origin gh-pages || true  # Fetch or ignore if it doesn't exist
-          git checkout --orphan gh-pages || git checkout gh-pages # Create or switch
-
-      - name: Commit changes to gh-pages
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html
-          git commit -m "Automated update" || echo "No changes to commit" # Handle no changes
-
-      - name: Push changes to gh-pages
-        uses: ad-m/github-push-action@master
+      - name: Deploy to GitHub Pages (using a temporary branch)
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          folder: . # Deploy the current directory (with the modified index.html)
           branch: gh-pages
-          force: true # Add force flag if needed
+          clean: true # Important: Clean the gh-pages branch first
