@@ -17,8 +17,8 @@ jobs:
       - name: Create dist directory
         run: mkdir -p dist
 
-      - name: Copy files to dist
-        run: cp -r * dist/
+      - name: Copy files to dist (excluding dist itself)
+        run: cp -r !(dist) dist/  # Exclude dist directory
 
       - name: Replace placeholder in index.html and inject JS variable
         run: |
