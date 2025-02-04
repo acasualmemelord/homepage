@@ -21,11 +21,12 @@ jobs:
         run: |
           cp index.html dist/
           cp script.js dist/
+          cp name-function.js dist/
 
-      - name: Inject JavaScript function in script.js  # <--- Corrected
+      - name: Inject JavaScript function in name-function.js  # <--- Corrected
         run: |
           export CONCEALED_NAME="${{ secrets.CONCEALED_NAME }}"
-          echo "window.getName = function() { return '$CONCEALED_NAME'; };" >> dist/script.js # <--- Corrected
+          echo "window.getName = function() { return '$CONCEALED_NAME'; };" >> dist/name-function.js
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
