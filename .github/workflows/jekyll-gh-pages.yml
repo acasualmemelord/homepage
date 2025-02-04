@@ -1,16 +1,16 @@
 name: Deploy GitHub Pages with Concealed Name
 
 on:
-  workflow_dispatch:
-    inputs:
-      CONCEALED_NAME:
-        description: 'The concealed name to replace'
-        required: true
-        default: 'DefaultName'  # Optional default value
+  push:
+    branches:
+      - main  # Ensure it's the correct branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    env:
+      CONCEALED_NAME: "YourConcealedName"  # Directly define your variable here for debugging
 
     steps:
       - name: Checkout code
@@ -18,16 +18,19 @@ jobs:
         with:
           ref: main  # Ensure correct branch
 
-      - name: Debug file structure
-        run: ls -R  # List files to confirm index.html exists
+      - name: Debug environment variables
+        run: |
+          echo "Listing environment variables:"
+          printenv  # List all environment variables to see if CONCEALED_NAME is available
 
       - name: Debug concealed name
-        run: echo "Concealed Name: ${{ github.event.inputs.CONCEALED_NAME }}"  # Accessing input value
+        run: |
+          echo "Concealed Name (should be 'YourConcealedName'): $CONCEALED_NAME"  # Should print the value of the variable
 
       - name: Replace placeholder with concealed name
         run: |
-          echo "Replacing __NAME__ with ${{ github.event.inputs.CONCEALED_NAME }}"
-          sed -i "s/__NAME__/${{ github.event.inputs.CONCEALED_NAME }}/g" index.html  # Double quotes to ensure variable expansion works
+          echo "Replacing __NAME__ with $CONCEALED_NAME"
+          sed -i "s/__NAME__/$CONCEALED_NAME/g" index.html  # Double quotes to ensure variable expansion works
         working-directory: .  # Adjust path if needed
 
       - name: Deploy to GitHub Pages
