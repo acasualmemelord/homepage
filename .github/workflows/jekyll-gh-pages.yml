@@ -9,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      CONCEALED_NAME: "YourConcealedName"  # Set as an environment variable
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,12 +22,12 @@ jobs:
         run: ls -R  # List files to confirm index.html exists
 
       - name: Debug concealed name
-        run: echo "Concealed Name: ${{ secrets.CONCEALED_NAME }}"  # Using secret
+        run: echo "Concealed Name: $CONCEALED_NAME"  # Directly print the variable value
 
       - name: Replace placeholder with concealed name
         run: |
-          echo "Replacing __NAME__ with ${{ secrets.CONCEALED_NAME }}"
-          sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html  # Double quotes to ensure variable expansion works
+          echo "Replacing __NAME__ with $CONCEALED_NAME"
+          sed -i "s/__NAME__/$CONCEALED_NAME/g" index.html  # Double quotes to ensure variable expansion works
         working-directory: .  # Adjust path if needed
 
       - name: Deploy to GitHub Pages
