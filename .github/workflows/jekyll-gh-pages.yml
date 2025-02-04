@@ -18,10 +18,6 @@ jobs:
       - name: Debug file structure
         run: ls -R  # List files to confirm index.html exists
 
-      - name: Debug concealed name
-        run: echo "Concealed Name: ${{ secrets.CONCEALED_NAME }}"  # Access the secret
-        shell: bash
-
       - name: Replace placeholder with concealed name
         run: |
           echo "Replacing __NAME__ with ${{ secrets.CONCEALED_NAME }}"
