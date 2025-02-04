@@ -14,17 +14,19 @@ jobs:
         with:
           ref: main
 
-      - name: Build the site (if applicable)
-        run: npm run build # or hugo, jekyll, etc.
+      - name: Create dist directory
+        run: mkdir -p dist
 
-      - name: Replace placeholder in index.html (using environment variable)
+      - name: Copy files to dist
+        run: cp -r src/* dist/
+
+      - name: Replace placeholder in index.html and inject JS variable
         run: |
-          sed -i "s/__NAME__/Loading.../g" ./dist/index.html # Replace with default text
-          echo "window.nameFromEnv = '${{ secrets.CONCEALED_NAME }}';" >> ./dist/script.js # Create JS variable
-        shell: bash
+          sed -i "s/__NAME__/Loading.../g" dist/index.html # Optional default text
+          echo "window.nameFromEnv = '${{ secrets.CONCEALED_NAME }}';" >> dist/script.js
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ./dist
+          folder: dist
           branch: gh-pages
