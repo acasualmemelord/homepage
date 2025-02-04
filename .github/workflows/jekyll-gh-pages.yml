@@ -21,12 +21,12 @@ jobs:
         run: |
           cp index.html dist/
           cp script.js dist/
-          cp name-function.js dist/
 
-      - name: Inject JavaScript function in name-function.js  # <--- Corrected
+      - name: Replace encoded name in script.js  # <--- Corrected
         run: |
           export CONCEALED_NAME="${{ secrets.CONCEALED_NAME }}"
-          echo "window.getName = function() { return '$CONCEALED_NAME'; };" >> dist/name-function.js
+          ENCODED_NAME=$(echo "$CONCEALED_NAME" | base64) # Encode the name
+          sed -i "s/\\*\\*\\*ENCODED_NAME\\*\\*\\*/$ENCODED_NAME/g" dist/script.js
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
