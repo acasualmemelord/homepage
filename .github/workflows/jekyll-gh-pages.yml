@@ -20,8 +20,8 @@ jobs:
 
       - name: Replace placeholder with concealed name
         run: |
-            echo "Replacing __NAME__ with '${{ secrets.CONCEALED_NAME }}'"
-            sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html
+            echo "Replacing __NAME__ with '${{ vars.CONCEALED_NAME }}'"
+            sed -i 's/__NAME__/${{ vars.CONCEALED_NAME }}/g' index.html
         shell: bash
 
 
