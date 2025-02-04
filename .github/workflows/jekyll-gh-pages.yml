@@ -18,7 +18,10 @@ jobs:
         run: mkdir -p dist
 
       - name: Copy files to dist (excluding dist itself)
-        run: cp -r !(dist) dist/  # Exclude dist directory
+        run: |
+          cp -r index.html dist/  # Copy index.html
+          cp -r script.js dist/   # Copy script.js
+          # Add other files as needed (e.g., cp -r style.css dist/)
 
       - name: Replace placeholder in index.html and inject JS variable
         run: |
