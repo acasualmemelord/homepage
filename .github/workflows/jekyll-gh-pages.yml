@@ -3,14 +3,11 @@ name: Deploy GitHub Pages with Concealed Name
 on:
   push:
     branches:
-      - main  # Ensure it's the correct branch
+      - main  # Change to the correct branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    env:
-      CONCEALED_NAME: "YourConcealedName"  # Directly define your variable here for debugging
 
     steps:
       - name: Checkout code
@@ -18,19 +15,16 @@ jobs:
         with:
           ref: main  # Ensure correct branch
 
-      - name: Debug environment variables
-        run: |
-          echo "Listing environment variables:"
-          printenv  # List all environment variables to see if CONCEALED_NAME is available
+      - name: Debug file structure
+        run: ls -R  # List files to confirm index.html exists
 
       - name: Debug concealed name
-        run: |
-          echo "Concealed Name (should be 'YourConcealedName'): $CONCEALED_NAME"  # Should print the value of the variable
+        run: echo "Concealed Name: ${{ secrets.CONCEALED_NAME }}"  # Access the secret
 
       - name: Replace placeholder with concealed name
         run: |
-          echo "Replacing __NAME__ with $CONCEALED_NAME"
-          sed -i "s/__NAME__/$CONCEALED_NAME/g" index.html  # Double quotes to ensure variable expansion works
+          echo "Replacing __NAME__ with ${{ secrets.CONCEALED_NAME }}"
+          sed -i "s/__NAME__/${{ secrets.CONCEALED_NAME }}/g" index.html  # Double quotes to ensure variable expansion works
         working-directory: .  # Adjust path if needed
 
       - name: Deploy to GitHub Pages
