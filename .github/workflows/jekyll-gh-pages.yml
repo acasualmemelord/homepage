@@ -21,12 +21,11 @@ jobs:
         run: |
           cp index.html dist/
           cp script.js dist/
-          cp name.json dist/  # Copy the name.json file
 
-      - name: Replace placeholder in name.json
+      - name: Inject JavaScript variable in script.js  # <--- Corrected
         run: |
           export CONCEALED_NAME="${{ secrets.CONCEALED_NAME }}"
-          sed -i "s/__NAME__/$CONCEALED_NAME/g" dist/name.json # Replace in name.json
+          echo "window.nameFromEnv = '$CONCEALED_NAME';" >> dist/script.js
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
