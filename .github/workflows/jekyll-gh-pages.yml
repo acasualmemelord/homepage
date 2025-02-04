@@ -18,7 +18,7 @@ jobs:
         run: mkdir -p dist
 
       - name: Copy files to dist
-        run: cp -r src/* dist/
+        run: cp -r * dist/
 
       - name: Replace placeholder in index.html and inject JS variable
         run: |
