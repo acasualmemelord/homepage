@@ -1,0 +1,29 @@
+body {
+    color: white;
+	font-family: "HelveticaBig", "Segoe UI", "Arial", "sans-serif";
+	background-color: #313338;
+}
+h1 {
+    color: white;
+}
+p1 {
+    color: white;
+}
+a:link {
+  color: #56B1FF;
+}
+a:visited {
+  color: #ad56ff;
+}
+
+@font-face {
+	font-family: Helvetica;
+	src: url("fonts/Helvetica CE Medium.otf") format("opentype");
+	font-style: normal;
+}
+
+@font-face {
+	font-family: HelveticaBig;
+	src: url("fonts/Helvetica LT 93 Black Extended.ttf") format("opentype");
+	font-style: normal;
+}
